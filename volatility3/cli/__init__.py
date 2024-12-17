@@ -244,11 +244,12 @@ class CommandLine:
         )
         isf_group.add_argument(
             "-u",
-            "--remote-isf-url",
+            "--remote-isf-urls",
             metavar="URL",
             help="Search online for ISF json files",
-            default=constants.REMOTE_ISF_URL,
+            default=constants.REMOTE_ISF_URLs,
             type=str,
+            nargs="*",
         )
         parser.add_argument(
             "--filters",
@@ -330,8 +331,8 @@ class CommandLine:
 
         if partial_args.offline:
             constants.OFFLINE = partial_args.offline
-        elif partial_args.remote_isf_url:
-            constants.REMOTE_ISF_URL = partial_args.remote_isf_url
+        elif partial_args.remote_isf_urls:
+            constants.REMOTE_ISF_URLs = partial_args.remote_isf_urls
 
         # Do the initialization
         ctx = contexts.Context()  # Construct a blank context
