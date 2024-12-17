@@ -435,7 +435,9 @@ class SqliteCache(CacheManagerInterface):
                     f"SELECT cached FROM cache WHERE local = 0 and cached < datetime('now', '{self.cache_period}')"
                 )
                 remote_identifiers = RemoteIdentifierFormat(remote_isf_url)
-                progress_callback((index + 0.5) / length * 100, "Reading remote ISF list")
+                progress_callback(
+                    (index + 0.5) / length * 100, "Reading remote ISF list"
+                )
                 for operating_system in constants.OS_CATEGORIES:
                     identifiers = remote_identifiers.process(
                         {}, operating_system=operating_system
@@ -443,7 +445,9 @@ class SqliteCache(CacheManagerInterface):
                     for identifier, location in identifiers:
                         identifier = identifier.rstrip()
                         identifier = (
-                            identifier[:-1] if identifier.endswith(b"\x00") else identifier
+                            identifier[:-1]
+                            if identifier.endswith(b"\x00")
+                            else identifier
                         )  # Linux banners dumped by dwarf2json end with "\x00\n". If not stripped, the banner cannot match.
                         cursor.execute(
                             "INSERT OR REPLACE INTO cache(identifier, location, operating_system, local, cached) VALUES (?, ?, ?, ?, datetime('now'))",
